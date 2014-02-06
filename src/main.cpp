@@ -1201,8 +1201,14 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 {
         static const int64        BlocksTargetSpacing                        = 1 * 60; // 1 Minute
         unsigned int                TimeDaySeconds                                = 60 * 60 * 24;
-        int64                       PastSecondsMin                                = TimeDaySeconds * 0.01;
-        int64                       PastSecondsMax                                = TimeDaySeconds * 0.14;
+
+        int64                       PastSecondsMin                                = TimeDaySeconds * 0.25;
+        int64                       PastSecondsMax                                = TimeDaySeconds * 7;
+	if (pindexLast->nHeight+1 <= 6000)
+        {
+                                    PastSecondsMin                                = TimeDaySeconds * 0.01;
+                                    PastSecondsMax                                = TimeDaySeconds * 0.14;
+	}
         uint64                      PastBlocksMin                                = PastSecondsMin / BlocksTargetSpacing;
         uint64                      PastBlocksMax                                = PastSecondsMax / BlocksTargetSpacing;        
         
