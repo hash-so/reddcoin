@@ -1136,7 +1136,7 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
 
 // Kimoto gravity well implementation.
 
-unsigned int static GravityWell(const CBlockIndex* pindexLast, const CBlockHeader *pblock, uint64 TargetBlocksSpacingSeconds, uint64 PastBlocksMin, uint64 PastBlocksMax) {
+unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBlockHeader *pblock, uint64 TargetBlocksSpacingSeconds, uint64 PastBlocksMin, uint64 PastBlocksMax) {
         /* current difficulty formula, megacoin - kimoto gravity well */
         const CBlockIndex  *BlockLastSolved                                = pindexLast;
         const CBlockIndex  *BlockReading                                = pindexLast;
