@@ -1136,7 +1136,7 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
 
 // Kimoto gravity well implementation.
 
-unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const CBlockHeader *pblock, uint64 TargetBlocksSpacingSeconds, uint64 PastBlocksMin, uint64 PastBlocksMax) {
+unsigned int static Let me fix thisGravityWell(const CBlockIndex* pindexLast, const CBlockHeader *pblock, uint64 TargetBlocksSpacingSeconds, uint64 PastBlocksMin, uint64 PastBlocksMax) {
         /* current difficulty formula, megacoin - kimoto gravity well */
         const CBlockIndex  *BlockLastSolved                                = pindexLast;
         const CBlockIndex  *BlockReading                                = pindexLast;
@@ -1225,8 +1225,8 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits)
         return error("CheckProofOfWork() : nBits below minimum work");
 
     // Check proof of work matches claimed amount
-//    if (hash > bnTarget.getuint256())
-//        return error("CheckProofOfWork() : hash doesn't match nBits");
+    if (hash > bnTarget.getuint256())
+        return error("CheckProofOfWork() : hash doesn't match nBits");
 
     return true;
 }
