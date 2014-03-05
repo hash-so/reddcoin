@@ -1221,15 +1221,16 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
         return KimotoGravityWell(pindexLast, pblock, BlocksTargetSpacing, PastBlocksMin, PastBlocksMax);
 }
 
-bool CheckProofOfWork(uint256 hash, unsigned int nBits)
+bool CheckProofOfWork(uint256 hash, unsigned int nBits, int nHeight)
 {
     CBigNum bnTarget;
     bnTarget.SetCompact(nBits);
 
     // Check range
+	if (nHeight > 44877){
     if (bnTarget <= 0 || bnTarget > bnProofOfWorkLimit)
         return error("CheckProofOfWork() : nBits below minimum work");
-
+		}
     // Check proof of work matches claimed amount
     if (hash > bnTarget.getuint256())
         return error("CheckProofOfWork() : hash doesn't match nBits");
