@@ -2142,15 +2142,7 @@ bool CBlock::CheckBlock(CValidationState &state, bool fCheckPOW, bool fCheckMerk
     }
 
     // Check proof of work matches claimed amount
-    uint256 hash = GetHash();
-    int nHeight;
-    map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hash);
-    if (mi != mapBlockIndex.end())
-         nHeight = (*mi).second->nHeight;
-    else
-        nHeight = 0;
-
-    if (fCheckPOW && nHeight > 44877 && !CheckProofOfWork(GetPoWHash(), nBits))
+    if (fCheckPOW && vtx[0].vin[0].scriptSig[0] > 44877 && !CheckProofOfWork(GetPoWHash(), nBits))
         return state.DoS(50, error("CheckBlock() : proof of work failed"));
 
     // Check timestamp
