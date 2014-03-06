@@ -1203,13 +1203,8 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
         unsigned int                TimeDaySeconds                                = 60 * 60 * 24;
 		
 		        int64                       PastSecondsMin                                = TimeDaySeconds * 0.25;
-				int64                       PastSecondsMax                                = TimeDaySeconds * 8;
+				int64                       PastSecondsMax                                = TimeDaySeconds * 7;
 		
-	if (pindexLast->nHeight+1 <= 44877)
-        {
-                                    PastSecondsMin                                = TimeDaySeconds * 0.25;
-                                    PastSecondsMax                                = TimeDaySeconds * 7;
-		}
 	if (pindexLast->nHeight+1 <= 6000)
         {
                                     PastSecondsMin                                = TimeDaySeconds * 0.01;
@@ -1229,10 +1224,10 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits)
     // Check range
     if (bnTarget <= 0 || bnTarget > bnProofOfWorkLimit)
         return error("CheckProofOfWork() : nBits below minimum work");
-
+		
     // Check proof of work matches claimed amount
-    if (hash > bnTarget.getuint256())
-        return error("CheckProofOfWork() : hash doesn't match nBits");
+ //   if (hash > bnTarget.getuint256())
+ //       return error("CheckProofOfWork() : hash doesn't match nBits");
 
     return true;
 }
@@ -2233,6 +2228,10 @@ bool CBlock::AcceptBlock(CValidationState &state, CDiskBlockPos *dbp)
         CBlockIndex* pcheckpoint = Checkpoints::GetLastCheckpoint(mapBlockIndex);
         if (pcheckpoint && nHeight < pcheckpoint->nHeight)
             return state.DoS(100, error("AcceptBlock() : forked chain older than last checkpoint (height %d)", nHeight));
+			
+			        if (pcheckpoint && nHeight > 44877)
+            return state.DoS(100, error("AcceptBlock() : rejecting blocks newer than last checkpoint (height %d)", nHeight));
+
 
 //        if (pcheckpoint && nHeight > 44877)
 //            return state.DoS(100, error("AcceptBlock() : rejecting blocks newer than last checkpoint (height %d)", nHeight));

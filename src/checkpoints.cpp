@@ -50,7 +50,7 @@ namespace Checkpoints
         ;
     static const CCheckpointData data = {
         &mapCheckpoints,
-        1392561286, // * UNIX timestamp of last checkpoint block
+        1394048078, // * UNIX timestamp of last checkpoint block
         100000,    // * total number of transactions between genesis and last checkpoint
                     //   (the tx=... number in the SetBestChain debug.log lines)
         8000.0     // * estimated number of transactions per day after checkpoint
