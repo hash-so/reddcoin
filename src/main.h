@@ -1482,8 +1482,8 @@ public:
         }
 
         // Check the header
-        if (!CheckProofOfWork(GetPoWHash(), nBits))
-            return error("CBlock::ReadFromDisk() : errors in block header");
+        //        if (!CheckProofOfWork(GetPoWHash(), nBits))
+        //    return error("CBlock::ReadFromDisk() : errors in block header");
 
         return true;
     }
@@ -1529,7 +1529,7 @@ public:
     bool AddToBlockIndex(CValidationState &state, const CDiskBlockPos &pos);
 
     // Context-independent validity checks
-    bool CheckBlock(CValidationState &state, bool fCheckPOW=true, bool fCheckMerkleRoot=true) const;
+    bool CheckBlock(CValidationState &state, bool fCheckPOW=true, bool fCheckMerkleRoot=true, CBlockIndex *pIndex=NULL) const;
 
     // Store block on disk
     // if dbp is provided, the file is known to already reside on disk
