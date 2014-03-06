@@ -1642,7 +1642,7 @@ void ThreadScriptCheck() {
 bool CBlock::ConnectBlock(CValidationState &state, CBlockIndex* pindex, CCoinsViewCache &view, bool fJustCheck)
 {
     // Check it again in case a previous version let a bad block in
-    if (!CheckBlock(state, !fJustCheck, !fJustCheck))
+    if (!CheckBlock(state, !fJustCheck, !fJustCheck, pindex))
         return false;
 
     // verify that the view's current state corresponds to the previous block
@@ -2114,7 +2114,7 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 }
 
 
-bool CBlock::CheckBlock(CValidationState &state, bool fCheckPOW, bool fCheckMerkleRoot) const
+bool CBlock::CheckBlock(CValidationState &state, bool fCheckPOW, bool fCheckMerkleRoot, CBlockIndex* pIndex) const
 {
     // These are checks that are independent of context
     // that can be verified before saving an orphan block.
@@ -2142,7 +2142,7 @@ bool CBlock::CheckBlock(CValidationState &state, bool fCheckPOW, bool fCheckMerk
     }
 
     // Check proof of work matches claimed amount
-    if (fCheckPOW && vtx[0].vin[0].scriptSig[0] > 44877 && !CheckProofOfWork(GetPoWHash(), nBits))
+    if (fCheckPOW && pIndex->nHeight > 44877 && !CheckProofOfWork(GetPoWHash(), nBits))
         return state.DoS(50, error("CheckBlock() : proof of work failed"));
 
     // Check timestamp
@@ -2229,10 +2229,6 @@ bool CBlock::AcceptBlock(CValidationState &state, CDiskBlockPos *dbp)
         if (pcheckpoint && nHeight < pcheckpoint->nHeight)
             return state.DoS(100, error("AcceptBlock() : forked chain older than last checkpoint (height %d)", nHeight));
 			
-			        if (pcheckpoint && nHeight > 44877)
-            return state.DoS(100, error("AcceptBlock() : rejecting blocks newer than last checkpoint (height %d)", nHeight));
-
-
 //        if (pcheckpoint && nHeight > 44877)
 //            return state.DoS(100, error("AcceptBlock() : rejecting blocks newer than last checkpoint (height %d)", nHeight));
 
